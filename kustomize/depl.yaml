@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: hbvue
-        image: ghcr.io/ekskog/365vue:latest
+        image: ghcr.io/ekskog/hbvue:latest
         ports:
         - containerPort: 80
         volumeMounts:
