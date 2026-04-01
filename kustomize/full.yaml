@@ -33,3 +33,12 @@ spec:
         image: ghcr.io/lucarv/365vue:latest
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: app-config
+          mountPath: /usr/share/nginx/html/config.json
+          subPath: config.json
+          readOnly: true
+      volumes:
+      - name: app-config
+        configMap:
+          name: hbvue-config

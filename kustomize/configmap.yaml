@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hbvue-config
+  namespace: webapps
+data:
+  config.json: |
+    {
+      "IMAGE_BASE_URL": "https://objects.ekskog.net/blotpix"
+    }

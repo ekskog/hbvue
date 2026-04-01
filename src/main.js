@@ -16,12 +16,26 @@ const router = createRouter({
     routes,
 });
 
-const app = createApp(App);
+async function bootstrap() {
+  let config = {};
+  try {
+    const res = await fetch('/config.json');
+    if (res.ok) config = await res.json();
+  } catch (e) {
+    console.warn('Could not load /config.json, using defaults');
+  }
 
-app.use(router);
+  const app = createApp(App);
+  app.use(router);
 
-app.config.errorHandler = (err, vm, info) => {
-  console.error('Global error:', err, info)
+  // expose config as $config in components
+  app.config.globalProperties.$config = config;
+
+  app.config.errorHandler = (err, vm, info) => {
+    console.error('Global error:', err, info)
+  }
+
+  app.mount('#app');
 }
 
-app.mount('#app');
+bootstrap();
