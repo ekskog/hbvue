@@ -198,7 +198,9 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    background-color: #f8f8f8;
 }
 
 .click-message {
