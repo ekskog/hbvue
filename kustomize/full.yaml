@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hbvue
+  namespace: webapps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hbvue
+  template:
+    metadata:
+      labels:
+        app: hbvue
+    spec:
+      containers:
+      - name: hbvue
+        image: ghcr.io/ekskog/hbvue:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: app-config
+          mountPath: /usr/share/nginx/html/config.json
+          subPath: config.json
+          readOnly: true
+      volumes:
+      - name: app-config
+        configMap:
+          name: hbvue-config
