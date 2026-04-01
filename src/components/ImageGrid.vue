@@ -88,7 +88,7 @@ export default {
                     (this.year === currentYear && this.month === currentMonth && day > currentDay);
 
                 this.imageUrls.push({
-                    url: isFutureDate ? null : `https://objects.hbvu.su/blotpix/${this.year}/${formattedMonth}/${formattedDay}.jpeg`,
+                    url: isFutureDate ? null : `https://objects.ekskog.net/blotpix/${this.year}/${formattedMonth}/${formattedDay}.jpeg`,
                     day: day
                 });
             }

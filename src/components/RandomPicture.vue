@@ -42,7 +42,7 @@ export default {
         const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
         this.formattedDate = this.formatDate(randomDate);
 
-        this.imageUrl = `https://objects.hbvu.su/blotpix/${randomDate.getFullYear()}/${String(randomDate.getMonth() + 1).padStart(2, '0')}/${String(randomDate.getDate()).padStart(2, '0')}.jpeg`;
+        this.imageUrl = `https://objects.ekskog.net/blotpix/${randomDate.getFullYear()}/${String(randomDate.getMonth() + 1).padStart(2, '0')}/${String(randomDate.getDate()).padStart(2, '0')}.jpeg`;
 
         // Emit an event to inform the parent (App.vue) about the new picture
         this.$emit('pictureFetched', {

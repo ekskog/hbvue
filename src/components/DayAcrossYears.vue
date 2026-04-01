@@ -91,7 +91,7 @@ export default {
             for (let year = startYear; year <= currentYear; year++) {
                 const formattedMonth = this.month.toString().padStart(2, '0');
                 const formattedDay = this.day.toString().padStart(2, '0');
-                const imageUrl = `https://objects.hbvu.su/blotpix/${year}/${formattedMonth}/${formattedDay}.jpeg`;
+                const imageUrl = `https://objects.ekskog.net/blotpix/${year}/${formattedMonth}/${formattedDay}.jpeg`;
                 this.images.push({ url: imageUrl, year: year });
             }
         },
