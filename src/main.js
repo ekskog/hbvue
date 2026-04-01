@@ -2,13 +2,11 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import LandingPage from './components/LandingPage.vue';
-import DayAcrossYears from './components/DayAcrossYears.vue';
-import '@fortawesome/fontawesome-free/css/all.css'
 
 const routes = [
     { path: '/', name: 'Home', component: LandingPage },
     { path: '/landing', name: 'LandingPage', component: LandingPage },
-    { path: '/day/:month/:day', name: 'DayAcrossYears', component: DayAcrossYears },
+    { path: '/day/:month/:day', name: 'DayAcrossYears', component: () => import('./components/DayAcrossYears.vue') },
 ];
 
 const router = createRouter({
