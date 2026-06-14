@@ -20,7 +20,7 @@
                 <div class="image-thumbnail" @click="openImageOverlay(index)">
                     <img :src="image.url" :alt="`Image for ${formatDate(image.day)}`">
                 </div>
-                <div class="image-footer">{{ formatDate(image.day) }}</div>
+                <div class="image-footer">{{ formatCardLabel(image.day) }}</div>
             </div>
         </div>
         <ImageOverlay :showOverlay="showOverlay" :selectedImage="selectedImage" :selectedDate="selectedDate"
@@ -99,28 +99,34 @@ export default {
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             return monthNames[month - 1] || '';
         },
+        ordinal(day) {
+            const suffixes = ["st", "nd", "rd", "th"];
+            if (day >= 11 && day <= 13) return `${day}${suffixes[3]}`;
+            switch (day % 10) {
+                case 1: return `${day}${suffixes[0]}`;
+                case 2: return `${day}${suffixes[1]}`;
+                case 3: return `${day}${suffixes[2]}`;
+                default: return `${day}${suffixes[3]}`;
+            }
+        },
+        // Card label: weekday + day, e.g. "Monday 1st" (month/year already shown in the header)
+        formatCardLabel(day) {
+            if (!day || isNaN(day)) {
+                console.error("Invalid day passed to formatCardLabel:", day);
+                return "Invalid Date";
+            }
+            const weekdayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const weekday = weekdayNames[new Date(this.year, this.month - 1, day).getDay()];
+            return `${weekday} ${this.ordinal(day)}`;
+        },
+        // Full date for the overlay caption, e.g. "May 1st, 2026"
         formatDate(day) {
             if (!day || isNaN(day)) {
                 console.error("Invalid day passed to formatDate:", day);
                 return "Invalid Date";
             }
-
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            const suffixes = ["st", "nd", "rd", "th"];
-
-            let suffix;
-            if (day >= 11 && day <= 13) {
-                suffix = suffixes[3];
-            } else {
-                switch (day % 10) {
-                    case 1: suffix = suffixes[0]; break;
-                    case 2: suffix = suffixes[1]; break;
-                    case 3: suffix = suffixes[2]; break;
-                    default: suffix = suffixes[3];
-                }
-            }
-
-            return `${monthNames[this.month - 1]} ${day}${suffix}, ${this.year}`;
+            return `${monthNames[this.month - 1]} ${this.ordinal(day)}, ${this.year}`;
         },
         goHome() {
             this.$emit('home');
@@ -173,10 +179,6 @@ export default {
 <style scoped>
 .image-grid {
     margin-top: 20px;
-    height: calc(100vh - 40px);
-    /* Subtract margin-top */
-    display: flex;
-    flex-direction: column;
 }
 
 .header {
@@ -211,16 +213,10 @@ export default {
 .thumbnails {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    grid-auto-rows: 1fr;
     gap: 15px;
-    overflow-y: auto;
-    flex-grow: 1;
-    padding-right: 5px;
 }
 
 .image-card {
-    display: flex;
-    flex-direction: column;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
@@ -233,7 +229,9 @@ export default {
 }
 
 .image-thumbnail {
-    flex-grow: 1;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
     position: relative;
     cursor: pointer;
 }
@@ -242,7 +240,9 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    background-color: #f8f8f8;
 }
 
 .image-footer {
