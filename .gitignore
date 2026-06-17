@@ -7,6 +7,9 @@ node_modules/
 /dist/
 /*.js
 /*.map
+!/tailwind.config.js
+!/postcss.config.js
+!/babel.config.js
 
 # Log files
 npm-debug.log*
