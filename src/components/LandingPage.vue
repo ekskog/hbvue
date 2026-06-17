@@ -82,14 +82,14 @@ export default {
         if (viewType === 'month') {
           this.$emit("form-submitted", {
             type: 'month',
-            month: this.selectedMonth,
-            year: this.selectedYear,
+            month: parseInt(this.selectedMonth, 10),
+            year: parseInt(this.selectedYear, 10),
           });
         } else {
           this.$emit("form-submitted", {
             type: 'dayAcrossYears',
-            month: this.selectedMonth,
-            day: this.selectedDay,
+            month: parseInt(this.selectedMonth, 10),
+            day: parseInt(this.selectedDay, 10),
           });
         }
       } else {

@@ -53,6 +53,10 @@ export default {
             selectedIndex: 0,
         };
     },
+    watch: {
+        month: 'fetchImages',
+        day: 'fetchImages',
+    },
     methods: {
         getMonthName(monthNumber) {
             const monthNames = ["January", "February", "March", "April", "May", "June",
