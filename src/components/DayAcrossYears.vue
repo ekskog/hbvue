@@ -88,11 +88,26 @@ export default {
             this.$emit('navigate', { day: newDay, month: newMonth });
         },
         fetchImages() {
-            const currentYear = new Date().getFullYear();
+            // The gallery only spans 11 Mar 2010 (its first image) up to yesterday
+            // (today's image isn't uploaded yet). Skip this day's instances that
+            // fall outside that range; missing images within it still render.
+            const galleryStart = new Date(2010, 2, 11);
+            galleryStart.setHours(0, 0, 0, 0);
+            const cutoff = new Date();
+            cutoff.setDate(cutoff.getDate() - 1);
+            cutoff.setHours(0, 0, 0, 0);
+
             const startYear = 2010;
+            const endYear = new Date().getFullYear();
 
             this.images = [];
-            for (let year = startYear; year <= currentYear; year++) {
+            for (let year = startYear; year <= endYear; year++) {
+                const date = new Date(year, this.month - 1, this.day);
+                date.setHours(0, 0, 0, 0);
+                if (date < galleryStart || date > cutoff) {
+                    continue;
+                }
+
                 const formattedMonth = this.month.toString().padStart(2, '0');
                 const formattedDay = this.day.toString().padStart(2, '0');
                 const imageUrl = `https://objects.ekskog.net/blotpix/${year}/${formattedMonth}/${formattedDay}.jpeg`;

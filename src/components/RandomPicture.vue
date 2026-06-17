@@ -1,7 +1,7 @@
 <template>
-  <div class="mt-4">
-    <div v-if="imageUrl" class="w-72 photo-card border-black">
-      <img :src="imageUrl" alt="Random Picture" class="w-full h-72 object-cover" />
+  <div class="mt-4 w-full">
+    <div v-if="imageUrl" class="w-full photo-card border-black">
+      <img :src="imageUrl" alt="Random Picture" class="w-full aspect-square object-cover" />
       <div class="p-4 text-center">
         <p class="m-0 text-xl">{{ formattedDate }}</p>
       </div>

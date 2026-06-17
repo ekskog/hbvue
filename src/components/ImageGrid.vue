@@ -67,28 +67,29 @@ export default {
             this.isLoading = true;
             this.imageUrls = [];
 
-            const today = new Date();
-            const currentYear = today.getFullYear();
-            const currentMonth = today.getMonth() + 1;
-            const currentDay = today.getDate() - 1;
+            // The gallery only spans 11 Mar 2010 (its first image) up to yesterday
+            // (today's image isn't uploaded yet). Days outside that range are
+            // skipped entirely; missing images *within* the range still render so
+            // the gap is visible.
+            const galleryStart = new Date(2010, 2, 11);
+            galleryStart.setHours(0, 0, 0, 0);
+            const cutoff = new Date();
+            cutoff.setDate(cutoff.getDate() - 1);
+            cutoff.setHours(0, 0, 0, 0);
 
             const lastDay = new Date(this.year, this.month, 0).getDate();
 
-            // this.startDay = (this.year === 2010 && this.month === 3) ? 11 : 1;
-            this.startDay = 1;
+            for (let day = 1; day <= lastDay; day++) {
+                const date = new Date(this.year, this.month - 1, day);
+                date.setHours(0, 0, 0, 0);
+                if (date < galleryStart || date > cutoff) {
+                    continue;
+                }
 
-            for (let day = this.startDay; day <= lastDay; day++) {
                 const formattedDay = day < 10 ? `0${day}` : `${day}`;
                 const formattedMonth = this.month < 10 ? `0${this.month}` : `${this.month}`;
-
-                // Check if the date is in the future
-                const isFutureDate =
-                    this.year > currentYear ||
-                    (this.year === currentYear && this.month > currentMonth) ||
-                    (this.year === currentYear && this.month === currentMonth && day > currentDay);
-
                 this.imageUrls.push({
-                    url: isFutureDate ? null : `https://objects.ekskog.net/blotpix/${this.year}/${formattedMonth}/${formattedDay}.jpeg`,
+                    url: `https://objects.ekskog.net/blotpix/${this.year}/${formattedMonth}/${formattedDay}.jpeg`,
                     day: day
                 });
             }
