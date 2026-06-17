@@ -4,7 +4,7 @@
       <h1 class="text-center text-3xl font-bold pt-2.5 pb-1.5 m-0">EKSKOG 365</h1>
       <div class="flex flex-1 flex-col sm:flex-row mb-auto">
         <div class="flex-1 flex flex-col justify-center items-center px-2 py-2.5 sm:py-0">
-          <RandomPicture @pictureFetched="updateRandomImage" />
+          <RandomPicture @pictureFetched="updateRandomImage" @dateSelected="showDayAcrossYears" />
         </div>
         <div class="flex-1 flex flex-col justify-center items-center px-2 py-2.5 sm:py-0">
           <form @submit.prevent class="w-full">
@@ -68,6 +68,13 @@ export default {
     updateRandomImage({ imageUrl, formattedDate }) {
       this.randomImageUrl = imageUrl;
       this.randomImageDate = formattedDate;
+    },
+    showDayAcrossYears({ month, day }) {
+      this.$emit("form-submitted", {
+        type: "dayAcrossYears",
+        month,
+        day,
+      });
     },
     submitForm(viewType) {
       console.log("submitForm called with viewType:", viewType);

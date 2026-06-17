@@ -1,6 +1,11 @@
 <template>
   <div class="mt-4 w-full">
-    <div v-if="imageUrl" class="w-full photo-card border-black">
+    <div
+      v-if="imageUrl"
+      class="w-full photo-card border-black cursor-pointer hover:shadow-md transition-shadow"
+      title="Show this date across the years"
+      @click="selectDate"
+    >
       <img :src="imageUrl" alt="Random Picture" class="w-full aspect-square object-cover" />
       <div class="p-4 text-center">
         <p class="m-0 text-xl">{{ formattedDate }}</p>
@@ -16,6 +21,8 @@ export default {
     return {
       imageUrl: null,
       formattedDate: null,
+      randomMonth: null,
+      randomDay: null,
       error: null,
       intervalId: null,
     };
@@ -33,6 +40,11 @@ export default {
     clearInterval(this.intervalId);
   },
   methods: {
+    selectDate() {
+      if (this.randomMonth && this.randomDay) {
+        this.$emit('dateSelected', { month: this.randomMonth, day: this.randomDay });
+      }
+    },
     async getRandomPicture() {
       try {
         const startDate = new Date(2017, 0, 1);
@@ -41,6 +53,8 @@ export default {
 
         const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
         this.formattedDate = this.formatDate(randomDate);
+        this.randomMonth = randomDate.getMonth() + 1;
+        this.randomDay = randomDate.getDate();
 
         this.imageUrl = `https://objects.ekskog.net/blotpix/${randomDate.getFullYear()}/${String(randomDate.getMonth() + 1).padStart(2, '0')}/${String(randomDate.getDate()).padStart(2, '0')}.jpeg`;
 
