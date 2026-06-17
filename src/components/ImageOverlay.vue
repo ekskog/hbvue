@@ -1,14 +1,14 @@
 <template>
-  <div class="image-overlay" v-if="showOverlay">
-    <div class="image-card">
-      <img :src="selectedImage" alt="Full Image" />
-      <div class="image-footer">{{ selectedDate }}
+  <div class="fixed inset-0 bg-black/80 flex flex-col items-center justify-center z-50" v-if="showOverlay">
+    <div class="bg-white rounded-lg overflow-hidden shadow-lg max-w-[90%] max-h-[90%] flex flex-col">
+      <img class="max-w-full max-h-[calc(90vh-60px)] object-contain" :src="selectedImage" alt="Full Image" />
+      <div class="p-4 text-center bg-gray-50 text-base text-gray-700">{{ selectedDate }}
       </div>
     </div>
-    <div class="buttons-container">
-      <span class="overlay-button" @click="prvImg">previous</span>
-      <span class="overlay-button" @click="closeImageOverlay">back</span>
-      <span class="overlay-button" @click="nxtImg">next</span>
+    <div class="mt-5 flex justify-center gap-4">
+      <span class="text-white text-lg cursor-pointer bg-white/20 hover:bg-white/30 active:bg-white/40 px-4 py-2.5 rounded-lg transition-colors" @click="prvImg">previous</span>
+      <span class="text-white text-lg cursor-pointer bg-white/20 hover:bg-white/30 active:bg-white/40 px-4 py-2.5 rounded-lg transition-colors" @click="closeImageOverlay">back</span>
+      <span class="text-white text-lg cursor-pointer bg-white/20 hover:bg-white/30 active:bg-white/40 px-4 py-2.5 rounded-lg transition-colors" @click="nxtImg">next</span>
     </div>
   </div>
 </template>
@@ -54,71 +54,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.image-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.image-card {
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 90%;
-  max-height: 90%;
-  display: flex;
-  flex-direction: column;
-}
-
-.image-card img {
-  max-width: 100%;
-  max-height: calc(90vh - 60px);
-  object-fit: contain;
-}
-
-.image-footer {
-  padding: 15px;
-  text-align: center;
-  background-color: #f8f8f8;
-  font-size: 16px;
-  color: #333;
-  font-family: Verdana, sans-serif;
-}
-
-.buttons-container {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.overlay-button {
-  margin: 0 10px;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 10px 15px;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-}
-
-.overlay-button:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-.overlay-button:active {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-</style>

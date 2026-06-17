@@ -1,26 +1,26 @@
 <template>
-    <div class="image-grid">
-        <div class="header">
-            <button class="back-button" @click="goHome">
+    <div class="px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between mb-5">
+            <button class="btn-primary px-4 py-2.5 text-base border-none" @click="goHome">
                 <i class="fas fa-home"></i>
             </button>
-            <div class="header-content">
-                <div class="month-year">
-                    <span class="arrow" @click="previous">&larr;</span>
+            <div class="flex flex-col items-center">
+                <div class="text-2xl font-bold">
+                    <span class="cursor-pointer px-2.5" @click="previous">&larr;</span>
                     {{ getMonthName(month) }} {{ year }}
-                    <span class="arrow" @click="next">&rarr;</span>
+                    <span class="cursor-pointer px-2.5" @click="next">&rarr;</span>
                 </div>
-                <div class="click-message">Click on the thumbnails for a full-size image</div>
+                <div class="text-center mt-1 text-sm text-gray-600">Click on the thumbnails for a full-size image</div>
             </div>
         </div>
-        <div class="thumbnails">
-            <div v-if="isLoading" class="loading-indicator">Loading images...</div>
-            <div v-else-if="imageUrls.length === 0" class="no-images">No images available for this period.</div>
-            <div v-else v-for="(image, index) in imageUrls" :key="index" class="image-card">
-                <div class="image-thumbnail" @click="openImageOverlay(index)">
-                    <img :src="image.url" :alt="`Image for ${formatDate(image.day)}`">
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4">
+            <div v-if="isLoading" class="col-span-full text-center p-5 text-lg text-gray-600">Loading images...</div>
+            <div v-else-if="imageUrls.length === 0" class="col-span-full text-center p-5 text-lg text-gray-600">No images available for this period.</div>
+            <div v-else v-for="(image, index) in imageUrls" :key="index" class="photo-card hover:scale-105 transition-transform">
+                <div class="aspect-square relative cursor-pointer" @click="openImageOverlay(index)">
+                    <img class="absolute w-full h-full object-contain object-center bg-gray-50" :src="image.url" :alt="`Image for ${formatDate(image.day)}`">
                 </div>
-                <div class="image-footer">{{ formatCardLabel(image.day) }}</div>
+                <div class="p-2 text-center bg-gray-50 text-xs text-gray-700">{{ formatCardLabel(image.day) }}</div>
             </div>
         </div>
         <ImageOverlay :showOverlay="showOverlay" :selectedImage="selectedImage" :selectedDate="selectedDate"
@@ -175,132 +175,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.image-grid {
-    margin-top: 20px;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.back-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.month-year {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.arrow {
-    cursor: pointer;
-    padding: 0 10px;
-}
-
-.thumbnails {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
-}
-
-.image-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-}
-
-.image-card:hover {
-    transform: scale(1.05);
-}
-
-.image-thumbnail {
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    position: relative;
-    cursor: pointer;
-}
-
-.image-thumbnail img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    background-color: #f8f8f8;
-}
-
-.image-footer {
-    padding: 8px;
-    text-align: center;
-    background-color: #f8f8f8;
-    font-size: 12px;
-    color: #333;
-    font-family: Verdana, sans-serif;
-}
-
-.header-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.click-message {
-    text-align: center;
-    margin-top: 5px;
-    font-size: 14px;
-    color: #555;
-}
-
-.loading-indicator {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 20px;
-    font-size: 18px;
-    color: #555;
-}
-
-/* Customize scrollbar for webkit browsers */
-.thumbnails::-webkit-scrollbar {
-    width: 8px;
-}
-
-.thumbnails::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.thumbnails::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-.thumbnails::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-@media (max-width: 768px) {
-    .thumbnails {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    }
-
-    .image-footer {
-        font-size: 10px;
-        padding: 6px;
-    }
-}
-</style>

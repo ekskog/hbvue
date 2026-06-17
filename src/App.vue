@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="font-sans antialiased">
     <LandingPage @form-submitted="handleFormSubmission" v-if="currentView === 'landing'" />
     
     <ImageGrid 
@@ -70,11 +70,3 @@ export default {
    },
 };
 </script>
-
-<style scoped>
-#app { 
-   font-family: Avenir, Helvetica, Arial, sans-serif; 
-   -webkit-font-smoothing: antialiased; 
-   -moz-osx-font-smoothing: grayscale; 
-}
-</style>

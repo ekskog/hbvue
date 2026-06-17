@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
+import './assets/tailwind.css';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import LandingPage from './components/LandingPage.vue';
 

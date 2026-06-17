@@ -1,12 +1,12 @@
 <template>
-  <div class=" mt-4">
-    <div v-if="imageUrl" class="card">
-      <img :src="imageUrl" alt="Random Picture" class="card-img-top" />
-      <div class="card-body">
-        <p class="card-text">{{ formattedDate }}</p>
+  <div class="mt-4">
+    <div v-if="imageUrl" class="w-72 photo-card border-black">
+      <img :src="imageUrl" alt="Random Picture" class="w-full h-72 object-cover" />
+      <div class="p-4 text-center">
+        <p class="m-0 text-xl">{{ formattedDate }}</p>
       </div>
     </div>
-    <p v-if="error" class="text-danger">{{ error }}</p>
+    <p v-if="error" class="text-red-600">{{ error }}</p>
   </div>
 </template>
 
@@ -78,34 +78,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-
-* {
-    box-sizing: border-box;
-}
-
-.card {
-    width: 300px;
-    border: 1px solid #000;
-    border-radius: 8px;
-    overflow: hidden;
-    font-family: Verdana, sans-serif;
-}
-
-.card-img-top {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-}
-
-.card-body {
-    padding: 15px;
-    text-align: center;
-}
-
-.card-text {
-    margin: 0;
-    font-size: 20px;
-}
-</style>

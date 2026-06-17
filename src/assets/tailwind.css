@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Shared patterns repeated across multiple components. */
+  .btn-primary {
+    @apply bg-green-600 text-white rounded-lg cursor-pointer hover:bg-green-700 active:bg-green-800 transition-colors;
+  }
+
+  .photo-card {
+    @apply border border-gray-200 rounded-lg overflow-hidden shadow-sm;
+  }
+}

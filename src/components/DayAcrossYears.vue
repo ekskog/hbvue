@@ -1,24 +1,24 @@
 <template>
-    <div class="day-across-years">
-        <div class="header">
-            <button class="back-button" @click="goHome">
+    <div class="px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex items-center justify-between mb-5">
+            <button class="btn-primary px-4 py-2.5 text-base border-none" @click="goHome">
                 <i class="fas fa-home"></i>
             </button>
-            <div class="header-content">
-                <div class="day-month">
-                    <span class="arrow" @click="previousDay">&larr;</span>
+            <div class="flex flex-col items-center">
+                <div class="text-2xl font-bold">
+                    <span class="cursor-pointer px-2.5" @click="previousDay">&larr;</span>
                     {{ day }} {{ getMonthName(month) }}
-                    <span class="arrow" @click="nextDay">&rarr;</span>
+                    <span class="cursor-pointer px-2.5" @click="nextDay">&rarr;</span>
                 </div>
-                <div class="click-message">Click on the thumbnails for a full-size image</div>
+                <div class="text-center mt-1 text-sm text-gray-600">Click on the thumbnails for a full-size image</div>
             </div>
         </div>
-        <div class="image-grid">
-            <div v-for="(image, index) in images" :key="index" class="image-card">
-                <div class="image-thumbnail" @click="openImageOverlay(index)">
-                    <img :src="image.url" :alt="`Image for ${image.year}`">
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-5 mt-5">
+            <div v-for="(image, index) in images" :key="index" class="photo-card">
+                <div class="aspect-square relative cursor-pointer" @click="openImageOverlay(index)">
+                    <img class="absolute w-full h-full object-contain object-center bg-gray-50" :src="image.url" :alt="`Image for ${image.year}`">
                 </div>
-                <div class="image-footer">{{ image.year }}</div>
+                <div class="p-2.5 text-center bg-gray-50 text-sm">{{ image.year }}</div>
             </div>
         </div>
         <ImageOverlay :showOverlay="showOverlay" :selectedImage="selectedImage" :selectedDate="selectedDate"
@@ -128,92 +128,3 @@ export default {
     },
 };
 </script>
-
-
-
-<style scoped>
-.day-across-years {
-    padding: 20px;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.header-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-.back-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.arrow {
-    cursor: pointer;
-    padding: 0 10px;
-}
-
-.day-month {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.image-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.image-thumbnail {
-    width: 100%;
-    height: 0;
-    padding-bottom: 100%;
-    position: relative;
-    cursor: pointer;
-}
-
-.image-thumbnail img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    background-color: #f8f8f8;
-}
-
-.click-message {
-    text-align: center;
-    margin-top: 5px;
-    font-size: 14px;
-    color: #555;
-}
-
-.image-footer {
-    padding: 10px;
-    text-align: center;
-    background-color: #f8f8f8;
-    font-size: 14px;
-}
-</style>
