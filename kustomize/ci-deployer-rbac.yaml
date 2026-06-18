@@ -1,0 +1,48 @@
+# Least-privilege identity for the GitHub Action to deploy hbvue.
+# Scoped to the webapps namespace: it can read/patch deployments and
+# watch the resulting rollout (replicasets/pods) — nothing else.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gh-deployer
+  namespace: webapps
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gh-deployer
+  namespace: webapps
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "list", "watch", "patch"]
+  - apiGroups: ["apps"]
+    resources: ["replicasets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gh-deployer
+  namespace: webapps
+subjects:
+  - kind: ServiceAccount
+    name: gh-deployer
+    namespace: webapps
+roleRef:
+  kind: Role
+  name: gh-deployer
+  apiGroup: rbac.authorization.k8s.io
+---
+# Long-lived token for CI (k8s >=1.24 no longer auto-creates SA token secrets).
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gh-deployer-token
+  namespace: webapps
+  annotations:
+    kubernetes.io/service-account.name: gh-deployer
+type: kubernetes.io/service-account-token
