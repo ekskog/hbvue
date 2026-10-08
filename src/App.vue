@@ -1,20 +1,20 @@
 <template>
-  <div id="app" class="font-sans antialiased">
+  <div id="app" class="font-sans antialiased flex flex-col min-h-screen">
+    <AppNavbar @home="goToLandingPage" @navigate="handleFormSubmission" />
+
     <LandingPage @form-submitted="handleFormSubmission" v-if="currentView === 'landing'" />
     
-    <ImageGrid 
-      v-if="currentView === 'month'" 
-      :month="selectedMonth" 
-      :year="selectedYear" 
-      @home="goToLandingPage" 
-      @navigate="navigateToMonth" 
+    <ImageGrid
+      v-if="currentView === 'month'"
+      :month="selectedMonth"
+      :year="selectedYear"
+      @navigate="navigateToMonth"
     />
-    
-    <DayAcrossYears 
-       v-if="currentView === 'dayAcrossYears'" 
-       :month="selectedMonth" 
-       :day="selectedDay" 
-       @home="goToLandingPage"
+
+    <DayAcrossYears
+       v-if="currentView === 'dayAcrossYears'"
+       :month="selectedMonth"
+       :day="selectedDay"
        @navigate="navigateToDay"
      />
      
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import AppNavbar from "@/components/AppNavbar";
 import LandingPage from "@/components/LandingPage";
 import ImageGrid from "@/components/ImageGrid";
 import DayAcrossYears from "@/components/DayAcrossYears";
@@ -64,6 +65,7 @@ export default {
      },
    },
    components: {
+     AppNavbar,
      LandingPage,
      ImageGrid,
      DayAcrossYears,

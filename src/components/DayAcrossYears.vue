@@ -1,22 +1,30 @@
 <template>
-    <div class="px-4 sm:px-6 lg:px-8 py-6">
-        <div class="flex items-center justify-between mb-5">
-            <button class="btn-primary px-4 py-2.5 text-base border-none" @click="goHome">
-                <i class="fas fa-home"></i>
-            </button>
-            <div class="flex flex-col items-center">
-                <div class="text-2xl font-bold">
-                    <span class="cursor-pointer px-2.5" @click="previousDay">&larr;</span>
+    <div class="px-3 sm:px-6 lg:px-8 py-5 sm:py-6">
+        <div class="flex items-center justify-center mb-5 sm:mb-6">
+            <div class="flex items-center gap-0.5 sm:gap-3">
+                <button
+                    class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-900 hover:bg-gray-100 active:bg-gray-200 transition-colors"
+                    @click="previousDay" aria-label="Previous day">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h2 class="text-lg sm:text-2xl font-bold tracking-tight tabular-nums min-w-[6rem] sm:min-w-[7.5rem] text-center select-none">
                     {{ day }} {{ getMonthName(month) }}
-                    <span class="cursor-pointer px-2.5" @click="nextDay">&rarr;</span>
-                </div>
-                <div class="text-center mt-1 text-sm text-gray-600">Click on the thumbnails for a full-size image</div>
+                </h2>
+                <button
+                    class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-900 hover:bg-gray-100 active:bg-gray-200 transition-colors"
+                    @click="nextDay" aria-label="Next day">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
-        <div class="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-5 mt-5">
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(110px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2.5 sm:gap-5 mt-5">
             <div v-for="(image, index) in images" :key="index" class="photo-card">
-                <div class="aspect-square relative cursor-pointer" @click="openImageOverlay(index)">
+                <div class="aspect-square relative cursor-pointer group" @click="openImageOverlay(index)">
                     <img class="absolute w-full h-full object-contain object-center bg-gray-50" :src="image.url" :alt="`Image for ${image.year}`">
+                    <!-- non-intrusive hover affordance: a faint veil + zoom icon, invisible at rest -->
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/25 transition-colors duration-200" :title="`View ${image.year} full size`">
+                        <i class="fas fa-magnifying-glass-plus text-white text-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 drop-shadow-md"></i>
+                    </div>
                 </div>
                 <div class="p-2.5 text-center bg-gray-50 text-sm">{{ image.year }}</div>
             </div>
@@ -31,6 +39,7 @@ import ImageOverlay from "@/components/ImageOverlay";
 
 export default {
     name: 'DayAcrossYears',
+    emits: ["navigate"],
     components: {
         ImageOverlay
     },
@@ -62,9 +71,6 @@ export default {
             const monthNames = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"];
             return monthNames[monthNumber - 1];
-        },
-        goHome() {
-            this.$emit('home');
         },
         previousDay() {
             let newDay = this.day - 1;

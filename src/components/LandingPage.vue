@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen p-5 box-border">
+  <div class="flex flex-1 items-center justify-center p-5 box-border">
     <div class="w-[min(90vmin,800px)] aspect-square flex flex-col p-2 box-border">
       <h1 class="text-center text-3xl font-bold pt-2.5 pb-1.5 m-0">EKSKOG 365</h1>
       <div class="flex flex-1 flex-col sm:flex-row mb-auto">
